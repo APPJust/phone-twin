@@ -1,0 +1,101 @@
+:root{
+  --bg:#eef1f4; --card:#ffffff; --ink:#18202a; --muted:#5d6874; --line:#d5dce3;
+  --accent:#2457c5; --on-accent:#ffffff; --ok:#1d7a46; --ok-soft:#dff2e6;
+  --x:#d23b2f; --y:#1f8f4e; --z:#2a62d6; --phone:#26303b; --phone-screen:#3b6fb6; --phone-back:#9aa6b2;
+  --font:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
+  --mono:Consolas,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1318; --card:#181e25; --ink:#e4e9ef; --muted:#9aa6b2; --line:#2a333d;
+  --accent:#7aa2ff; --on-accent:#0d1420; --ok:#6fd49a; --ok-soft:#163223;
+  --x:#ff7a6e; --y:#6fd49a; --z:#7aa2ff; --phone:#cfd6de; --phone-screen:#4f86d6; --phone-back:#5d6874; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6}
+[hidden]{display:none!important}
+button{font:inherit;font-weight:700;min-height:44px;padding:0 14px;border-radius:10px;border:1.5px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+a{color:var(--accent)}
+h1,h2{margin:0;line-height:1.3}
+h2{font-size:17px}
+.screen{min-height:100vh;max-width:560px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:14px}
+
+/* 開始畫面 */
+.start{justify-content:space-between}
+.start-in{display:flex;flex-direction:column;gap:12px;padding-top:8vh}
+.kicker{margin:0;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+h1{font-size:32px}
+.lead{margin:0;font-size:17px}
+.hints{margin:0;padding-left:1.2em;color:var(--muted);font-size:15px}
+.big{min-height:56px;font-size:20px;background:var(--accent);color:var(--on-accent)}
+.ghost{border-color:var(--line);color:var(--ink)}
+.status{margin:0;min-height:3em;font-size:15px}
+.status.bad{color:var(--x)}
+.sign{font-size:13px;color:var(--muted);text-align:center;padding:8px 0}
+
+/* 上方工具列 */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.bar-btns{display:flex;gap:6px;flex-wrap:wrap}
+.bar-btns button{padding:0 10px;font-size:14px}
+.tag{font-size:13px;font-weight:700;border-radius:99px;padding:2px 10px;background:var(--ok-soft);color:var(--ok)}
+.tag.sim{background:var(--card);color:var(--x);box-shadow:inset 0 0 0 1.5px var(--x)}
+
+/* 3D 模型 */
+.stage{background:var(--card);border:1px solid var(--line);border-radius:14px;height:300px;position:relative;perspective:900px;overflow:hidden;display:grid;place-items:center}
+.scene{transform-style:preserve-3d;transform:rotateX(28deg)}
+.model{position:relative;width:110px;height:200px;transform-style:preserve-3d}
+.face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 0;backface-visibility:hidden;font-size:13px;font-weight:700}
+.front{background:var(--phone);transform:translateZ(6px);color:var(--bg);box-shadow:inset 0 0 0 7px var(--phone),inset 0 0 0 200px var(--phone-screen)}
+.front span{color:#fff}
+.front .cam{width:22px;height:5px;border-radius:3px;background:var(--phone)}
+.front .home{width:34px;height:4px;border-radius:2px;background:rgba(255,255,255,.7)}
+.back{background:var(--phone-back);transform:rotateY(180deg) translateZ(6px);justify-content:center;color:var(--bg)}
+.axis{position:absolute;left:50%;top:50%;transform-origin:0 50%;height:3px}
+.axis b{position:absolute;right:-16px;top:-10px;font-size:15px;font-family:var(--mono)}
+.axis.x{width:96px;background:var(--x);color:var(--x)}
+.axis.y{width:122px;background:var(--y);color:var(--y);transform:rotate(-90deg)}
+.axis.z{width:96px;background:var(--z);color:var(--z);transform:rotateY(-90deg)}
+.calib{position:absolute;left:10px;bottom:8px;margin:0;font-size:12.5px;color:var(--muted)}
+
+/* 數值卡片 */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;min-width:0}
+.card:last-child{grid-column:1/-1}
+.c-hd{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.c-hd span{font-size:13px;color:var(--muted);flex:1 1 100%}
+.c-hd b{font-family:var(--mono);font-size:20px;font-variant-numeric:tabular-nums}
+.c-hd small{color:var(--muted)}
+canvas{display:block;width:100%;height:60px}
+.legend{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:3px;vertical-align:middle;margin:0 3px 0 6px}
+.lb{background:var(--y)}.lg{background:var(--x)}
+
+/* 模擬模式 */
+.sim{background:var(--card);border:1.5px dashed var(--x);border-radius:12px;padding:10px 12px;display:grid;gap:4px}
+.sim label{display:flex;justify-content:space-between;font-size:14px;font-weight:700}
+.sim output{font-family:var(--mono)}
+.sim input{width:100%;min-height:32px;accent-color:var(--accent)}
+.sim button{margin-top:6px}
+
+/* 導覽 */
+.tour{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.steps{margin:0;padding:0;list-style:none;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{font-size:13px;border:1.5px solid var(--line);border-radius:99px;padding:1px 10px}
+.steps li.on{border-color:var(--accent);color:var(--accent);font-weight:700}
+.steps li.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.now{font-size:15px;min-height:4.5em}
+.now b{display:block;font-size:17px}
+.now .hold{display:block;height:6px;border-radius:3px;background:var(--line);margin-top:6px;overflow:hidden}
+.now .hold i{display:block;height:100%;width:0;background:var(--accent)}
+.now .why{display:block;margin-top:6px;background:var(--ok-soft);border-radius:8px;padding:6px 10px}
+
+/* 除錯面板 */
+.debug{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td{border-bottom:1px solid var(--line);padding:3px 6px;white-space:nowrap}
+td:not(:first-child){font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+
+/* 橫式提示 */
+.rotate{display:none;position:fixed;inset:0;z-index:9;background:var(--bg);color:var(--ink);font-size:22px;font-weight:700;align-items:center;justify-content:center}
+@media (orientation:landscape) and (max-height:520px){.rotate{display:flex}}

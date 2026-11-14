@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>手機姿態 3D 教具</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="startScreen" class="screen start">
+  <div class="start-in">
+    <p class="kicker">計概課教具・感測器</p>
+    <h1>手機姿態 3D 教具</h1>
+    <p class="lead">轉動手機，畫面上的 3D 手機會跟著轉。打開除錯面板，看加速度計、陀螺儀和方向的數字怎麼變。</p>
+    <ul class="hints">
+      <li>iPhone 請用 Safari，Android 請用 Chrome。</li>
+      <li>iPhone 按「開始」後，請選「允許」。</li>
+      <li>用電腦打開會自動進入模擬模式。</li>
+    </ul>
+    <button type="button" id="startBtn" class="big">開始</button>
+    <button type="button" id="simBtn" class="ghost" hidden>改用模擬模式</button>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </div>
+  <footer class="sign">李振偉老師（範例）・<a href="https://github.com/APPJust/phone-twin" target="_blank" rel="noopener">原始碼</a>・<span class="ver"></span></footer>
+</main>
+
+<main id="mainScreen" class="screen" hidden>
+  <header class="bar">
+    <span id="modeTag" class="tag"></span>
+    <span class="bar-btns">
+      <button type="button" id="calBtn">校正</button>
+      <button type="button" id="muteBtn" aria-pressed="false">音效：開</button>
+      <button type="button" id="dbgBtn" aria-expanded="false" aria-controls="debug">除錯</button>
+    </span>
+  </header>
+
+  <section class="stage" aria-label="3D 手機模型">
+    <div class="scene">
+      <div class="model" id="model">
+        <div class="face front"><i class="cam"></i><span>正面</span><i class="home"></i></div>
+        <div class="face back"><span>背面</span></div>
+        <div class="axis x"><b>x</b></div>
+        <div class="axis y"><b>y</b></div>
+        <div class="axis z"><b>z</b></div>
+      </div>
+    </div>
+    <p class="calib" id="calibTag" hidden>已校正：以剛才的姿勢為正面</p>
+  </section>
+
+  <section class="cards" aria-label="即時數值">
+    <div class="card"><div class="c-hd"><span>加速度（去掉重力）</span><b id="vAcc">0.0</b><small>m/s²</small></div><canvas id="cAcc" height="60"></canvas></div>
+    <div class="card"><div class="c-hd"><span>轉速（陀螺儀）</span><b id="vRot">0</b><small>°/s</small></div><canvas id="cRot" height="60"></canvas></div>
+    <div class="card"><div class="c-hd"><span>方向</span><b id="vOri">β 0°　γ 0°</b></div><canvas id="cOri" height="60"></canvas><p class="legend"><i class="lb"></i>β 前後傾 <i class="lg"></i>γ 左右傾　α <span id="vAlpha">0°</span>　方位 <span id="vHead">—</span></p></div>
+  </section>
+
+  <section id="simPanel" class="sim" hidden aria-label="模擬模式">
+    <h2>模擬模式</h2>
+    <label for="sA">α 水平轉動 <output id="oA">0°</output></label><input type="range" id="sA" min="0" max="359" value="0">
+    <label for="sB">β 前後傾 <output id="oB">0°</output></label><input type="range" id="sB" min="-180" max="180" value="0">
+    <label for="sG">γ 左右傾 <output id="oG">0°</output></label><input type="range" id="sG" min="-90" max="90" value="0">
+    <button type="button" id="shakeBtn">搖一下</button>
+  </section>
+
+  <section class="tour" aria-label="認識數值導覽">
+    <h2>認識數值導覽</h2>
+    <ol class="steps" id="steps"></ol>
+    <div class="now" id="tourNow" aria-live="polite"></div>
+    <button type="button" id="tourRestart" class="ghost">重新開始導覽</button>
+  </section>
+
+  <section id="debug" class="debug" hidden aria-label="除錯面板">
+    <h2>除錯面板</h2>
+    <div class="tbl"><table><tbody id="dbgBody"></tbody></table></div>
+  </section>
+
+  <footer class="sign">李振偉老師（範例）・<a href="https://github.com/APPJust/phone-twin" target="_blank" rel="noopener">原始碼</a>・<span class="ver"></span></footer>
+</main>
+
+<div id="rotateHint" class="rotate" role="alert">請轉回直式</div>
+
+<script src="config.js"></script>
+<script src="sensor.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
